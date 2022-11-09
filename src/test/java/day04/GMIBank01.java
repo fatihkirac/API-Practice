@@ -1,7 +1,11 @@
 package day04;
 
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.junit.Test;
 import utilities.GMIBankBaseUrl;
+
+import static io.restassured.RestAssured.given;
 
 public class GMIBank01 extends GMIBankBaseUrl {
 
@@ -19,6 +23,10 @@ request gönderin
     public void test01() {
         spec01.pathParam("first","tp-customers");
 
-
+        Response response = given()
+                .headers("Authorization", "Bearer " + generateToken()).contentType(ContentType.JSON)
+                .spec(spec01).when()
+                .get("/{first}");
+        response.prettyPrint();
     }
 }
